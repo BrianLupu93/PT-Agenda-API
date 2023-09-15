@@ -1,7 +1,6 @@
 const schedule = require('node-schedule');
 const dayjs = require('dayjs');
 const Client = require('../models/clientModel');
-const AppError = require('./appError');
 
 exports.checkExpireDate = async () => {
   //   Every morning at 6AM if subscription will end send sms * 6 * * *
@@ -12,15 +11,24 @@ exports.checkExpireDate = async () => {
     const oneDayBefore = dayjs().add(1, 'day').format('DD/MM/YYYY');
     const threeDaysBefore = dayjs().add(3, 'day').format('DD/MM/YYYY');
 
-    if (!allClients) return next(new AppError('No Clients', 404));
+    if (!allClients) {
+      return res.status(404).json({
+        status: 'success',
+        message: 'No Clients',
+      });
+    }
 
     const clientsWithSubscription = allClients.filter((client) => {
       if (client.subscription !== undefined && client.subscription.length > 0)
         return client;
     });
 
-    if (!clientsWithSubscription)
-      return next(new AppError('No Clients with valid subscription', 404));
+    if (!clientsWithSubscription) {
+      return res.status(404).json({
+        status: 'success',
+        message: 'No Clients with valid subscription',
+      });
+    }
 
     clientsWithSubscription.map((client) => {
       const clientDay = parseInt(client.subscription[0].endDate.slice(0, 2));

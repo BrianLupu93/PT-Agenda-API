@@ -1,6 +1,5 @@
 const Income = require('../models/incomeModel');
 const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
 
 const months = [
   'Ianuarie',
@@ -20,7 +19,13 @@ const months = [
 exports.getIncomesYears = catchAsync(async (req, res, next) => {
   const years = await Income.find({});
 
-  if (!years) return next(new AppError('No Bookings', 404));
+  if (!years) {
+    return res.status(404).json({
+      status: 'success',
+      message: 'No Bookings',
+    });
+  }
+
   const resData = years.map((el) => el.year);
 
   return res.status(200).json({
@@ -32,8 +37,12 @@ exports.getIncomesYears = catchAsync(async (req, res, next) => {
 exports.getIncomeByYear = catchAsync(async (req, res, next) => {
   const yearFound = await Income.findOne({ year: req.params.id });
 
-  if (!yearFound) return next(new AppError('No Bookings', 404));
-
+  if (!yearFound) {
+    return res.status(404).json({
+      status: 'success',
+      message: 'No Bookings',
+    });
+  }
   return res.status(200).json({
     status: 'success',
     year: yearFound,

@@ -1,14 +1,15 @@
 const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
 const Client = require('../models/clientModel');
-const factory = require('./handlerFactory');
 
 exports.getBookingAmount = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find({});
 
   if (!bookings) {
-    return next(new AppError('No Bookings', 404));
+    return res.status(404).json({
+      status: 'success',
+      message: 'No Bookings!',
+    });
   }
 
   const bookingDays = [];

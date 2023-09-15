@@ -2,22 +2,30 @@ const schedule = require('node-schedule');
 const dayjs = require('dayjs');
 const Client = require('../models/clientModel');
 const OldSubscription = require('../models/oldSubscriptionModel');
-const AppError = require('./appError');
 
 exports.checkSubscriptions = async () => {
   const today = dayjs().format('DD/MM/YYYY');
 
   const allClients = await Client.find({});
 
-  if (!allClients) return next(new AppError('No Clients', 404));
+  if (!allClients) {
+    return res.status(404).json({
+      status: 'success',
+      message: 'No Clients',
+    });
+  }
 
   const clientsWithSubscription = allClients.filter((client) => {
     if (client.subscription !== undefined && client.subscription.length > 0)
       return client;
   });
 
-  if (!clientsWithSubscription)
-    return next(new AppError('No Clients with valid subscription', 404));
+  if (!clientsWithSubscription) {
+    return res.status(404).json({
+      status: 'success',
+      message: 'No Clients with valid subscription',
+    });
+  }
 
   //   Every morning at 4AM put the Expire Today on the front * 4 * * *
   schedule.scheduleJob('0 4 * * *', async () => {

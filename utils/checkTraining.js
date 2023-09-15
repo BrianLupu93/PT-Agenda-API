@@ -2,7 +2,6 @@ const schedule = require('node-schedule');
 const dayjs = require('dayjs');
 const Client = require('../models/clientModel');
 const Booking = require('../models/bookingModel');
-const AppError = require('./appError');
 
 exports.checkTraining = () => {
   const startTime = 6;
@@ -19,7 +18,12 @@ exports.checkTraining = () => {
 
       const allClients = await Client.find({});
 
-      if (!allClients) return next(new AppError('No Clients', 404));
+      if (!allClients) {
+        return res.status(404).json({
+          status: 'success',
+          message: 'No Clients',
+        });
+      }
 
       const clientsWithSubscription = allClients.filter((client) => {
         if (client.subscription !== undefined && client.subscription.length > 0)
