@@ -2,10 +2,8 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan');
-const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
 const checkSubscriptions = require('./utils/checkSubscriptions');
@@ -41,7 +39,11 @@ app.use('/api/v1/bookings', bookingRouter);
 app.use('/api/v1/incomes', incomeRouter);
 
 app.all('*', (req, res, next) => {
-  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+  res.status(404).json({
+    status: 'success',
+    message: `Can't find ${req.originalUrl} on this server!`,
+  });
+  next();
 });
 
 // Check valid Subscripions
