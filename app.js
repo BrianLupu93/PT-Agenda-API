@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan');
 const bcrypt = require('bcrypt');
+const ejs = require('ejs');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const AppError = require('./utils/appError');
@@ -17,6 +18,7 @@ const bookingRouter = require('./routes/bookingRoutes');
 const incomeRouter = require('./routes/incomeRoutes');
 
 const app = express();
+app.set('view engine', 'ejs');
 
 // Implement CORS
 app.use(cors());
