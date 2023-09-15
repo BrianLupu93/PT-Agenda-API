@@ -67,7 +67,7 @@ exports.getOne = (Model, popOptions) =>
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     const all = Model.find({});
-    if (!all) {
+    if (all.length === 0) {
       return next(new AppError('No documents', 404));
     }
 
