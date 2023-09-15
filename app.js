@@ -17,8 +17,6 @@ const bookingRouter = require('./routes/bookingRoutes');
 const incomeRouter = require('./routes/incomeRoutes');
 
 const app = express();
-app.set('view engine', 'ejs');
-app.engine('ejs', require('ejs').__express);
 
 // Implement CORS
 app.use(cors());
