@@ -1,0 +1,36 @@
+{
+  "name": "smart-api",
+  "version": "1.0.0",
+  "description": "Api for smart App",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrianLupu93/smart-api.git"
+  },
+  "author": "Brian Lupu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BrianLupu93/smart-api/issues"
+  },
+  "homepage": "https://github.com/BrianLupu93/smart-api#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.9",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "jsonwebtoken": "^9.0.1",
+    "mongodb": "^5.8.0",
+    "mongoose": "^7.4.4",
+    "morgan": "^1.10.0",
+    "node-schedule": "^2.1.1",
+    "nodemon": "^3.0.1",
+    "validator": "^13.11.0"
+  }
+}
