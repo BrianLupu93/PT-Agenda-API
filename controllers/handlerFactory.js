@@ -68,7 +68,10 @@ exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     const all = Model.find({});
     if (all.length === 0) {
-      return next(new AppError('No documents', 404));
+      return res.status(404).json({
+        status: 'success',
+        message: 'No documents!',
+      });
     }
 
     // SEND RESPONSE
