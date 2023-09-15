@@ -66,18 +66,12 @@ exports.getOne = (Model, popOptions) =>
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    const all = Model.find({});
-    if (all.length === 0) {
-      return res.status(404).json({
-        status: 'success',
-        message: 'No documents!',
-      });
-    }
+    const allClients = Model.find({});
 
     // SEND RESPONSE
     res.status(200).json({
       status: 'success',
-      results: all.length,
-      data: all,
+      results: allClients.length,
+      data: allClients,
     });
   });
