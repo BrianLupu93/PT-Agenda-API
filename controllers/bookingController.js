@@ -40,7 +40,8 @@ exports.getBookingAmount = catchAsync(async (req, res, next) => {
 });
 
 exports.getTodayBookings = catchAsync(async (req, res, next) => {
-  const today = req.params.id.replaceAll('Y', '/');
+  const id = req.params.id;
+  const today = id.replaceAll('Y', '/');
   const allBookings = await Booking.find({});
 
   const foundedBookings = [];
