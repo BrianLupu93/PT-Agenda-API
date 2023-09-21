@@ -1,23 +1,23 @@
 const express = require('express');
 const bookingController = require('../controllers/bookingController');
-const middlewares = require('../middleware/middlewares');
+const { auth } = require('../middleware/auth');
+const { deleteIncomes } = require('../middleware/deleteIncomes');
 
 const router = express.Router();
 
-router.route('/amount').get(bookingController.getBookingAmount);
+router
+  .route('/')
+  .get(auth, bookingController.getAllBookings)
+  .post(auth, bookingController.createBooking);
+
 router
   .route('/:id')
-  .get(middlewares.auth, bookingController.getTodayBookings)
-  .patch(middlewares.auth, bookingController.deleteBooking);
+  .get(auth, bookingController.getBooking)
+  .patch(auth, bookingController.updateBooking)
+  .delete(auth, bookingController.deleteBooking);
 
 router
-  .route('/update/:id')
-  .patch(middlewares.auth, bookingController.upadateBooking);
-
-// router
-//   .route('/:id')
-//   .get(clientController.getClient)
-//   .patch(middlewares.bookingAction, clientController.updateClient)
-//   .delete(clientController.deleteClient);
+  .route('/delete-all/:id')
+  .delete(auth, bookingController.deleteAllBookings, deleteIncomes);
 
 module.exports = router;

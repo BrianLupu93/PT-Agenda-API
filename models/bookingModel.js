@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+const daySchema = new mongoose.Schema({
+  day: String,
+  time: String,
+  done: Boolean,
+});
+
 const bookingSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -9,7 +15,11 @@ const bookingSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Client ID is required'],
   },
-  bookings: { type: Array, default: [] },
+  subscriptionId: {
+    type: String,
+    required: [true, 'Subscription ID is required'],
+  },
+  day: daySchema,
 });
 
 const Booking = mongoose.model('Booking', bookingSchema);

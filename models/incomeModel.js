@@ -1,14 +1,26 @@
 const mongoose = require('mongoose');
 
-const monthSchema = new mongoose.Schema({
-  name: String,
-  clients: Array,
-  total: Number,
-});
-
 const incomeSchema = new mongoose.Schema({
-  year: String,
-  months: [monthSchema],
+  name: {
+    type: String,
+    required: [true, 'Client name is required'],
+  },
+  clientId: {
+    type: String,
+    required: [true, 'Client ID is required'],
+  },
+  subscriptionId: {
+    type: String,
+    required: [true, 'Subscription ID is required'],
+  },
+  date: {
+    type: String,
+    required: [true, 'Date is required'],
+  },
+  price: {
+    type: Number,
+    required: [true, 'Price is required'],
+  },
 });
 
 const Income = mongoose.model('Income', incomeSchema);

@@ -1,14 +1,13 @@
 const express = require('express');
 const incomeController = require('../controllers/incomeController');
-const middlewares = require('../middleware/middlewares');
+const { auth } = require('../middleware/auth');
 
 const router = express.Router();
 
-router.route('/').get(middlewares.auth, incomeController.getIncomesYears);
-
 router
-  .route('/:id')
-  .post(middlewares.auth, incomeController.registerIncome)
-  .get(middlewares.auth, incomeController.getIncomeByYear);
+  .route('/')
+  .get(auth, incomeController.getAllIncomes)
+  .post(auth, incomeController.createIncome);
+router.route('/:id').delete(auth, incomeController.deleteIncome);
 
 module.exports = router;

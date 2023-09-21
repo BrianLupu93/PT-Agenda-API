@@ -13,23 +13,6 @@ const clientSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Client phone is required'],
   },
-
-  subscription: [
-    {
-      trainingsTotal: Number,
-      trainingsDone: Number,
-      trainingsRemain: Number,
-      trainingsReBooked: Number,
-      trainingsScheduled: Number,
-      trainingsToSchedule: Number,
-      startDate: String,
-      endDate: String,
-      isActive: Boolean,
-      price: Number,
-      trainingDays: [],
-    },
-  ],
-  default: {},
 });
 
 const Client = mongoose.model('Client', clientSchema);

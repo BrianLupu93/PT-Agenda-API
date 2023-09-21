@@ -1,4 +1,4 @@
-const catchAsync = require('../utils/catchAsync');
+const catchAsync = require('./catchAsync');
 
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
@@ -73,12 +73,17 @@ exports.getOne = (Model, popOptions) =>
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    const allClients = await Model.find({});
-    console.log(allClients);
+    const allData = await Model.find({});
+
+    if (allData.length === 0) {
+      return res.status(200).json({
+        status: 'success',
+        message: 'No Data',
+      });
+    }
     // SEND RESPONSE
     res.status(200).json({
       status: 'success',
-      results: allClients.length,
-      data: allClients,
+      data: allData,
     });
   });

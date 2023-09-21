@@ -4,15 +4,15 @@ const cors = require('cors');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const globalErrorHandler = require('./controllers/errorController');
 
-const checkSubscriptions = require('./utils/checkSubscriptions');
-const checkTraining = require('./utils/checkTraining');
-const checkExpireDate = require('./utils/checkExpireDate');
+// const checkSubscriptions = require('./utils/checkSubscriptions');
+// const checkTraining = require('./utils/checkTraining');
+// const checkExpireDate = require('./utils/checkExpireDate');
 const userRouter = require('./routes/userRoutes');
 const clientRouter = require('./routes/clientRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const incomeRouter = require('./routes/incomeRoutes');
+const subscriptionRouter = require('./routes/subscriptionRoutes');
 
 const app = express();
 
@@ -37,6 +37,7 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/clients', clientRouter);
 app.use('/api/v1/bookings', bookingRouter);
 app.use('/api/v1/incomes', incomeRouter);
+app.use('/api/v1/subscriptions', subscriptionRouter);
 
 app.all('*', (req, res, next) => {
   res.status(404).json({
@@ -46,14 +47,12 @@ app.all('*', (req, res, next) => {
   next();
 });
 
-// Check valid Subscripions
-checkSubscriptions.checkSubscriptions();
-checkSubscriptions.moveOldSubscription();
-// Check training done
-checkTraining.checkTraining();
-// Check subscription expiredate
-checkExpireDate.checkExpireDate();
-
-app.use(globalErrorHandler);
+// // Check valid Subscripions
+// checkSubscriptions.checkSubscriptions();
+// checkSubscriptions.moveOldSubscription();
+// // Check training done
+// checkTraining.checkTraining();
+// // Check subscription expiredate
+// checkExpireDate.checkExpireDate();
 
 module.exports = app;
