@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const daySchema = new mongoose.Schema({
   day: String,
   time: String,
-  done: Boolean,
+  done: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const bookingSchema = new mongoose.Schema({

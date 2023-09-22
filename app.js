@@ -5,14 +5,13 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-// const checkSubscriptions = require('./utils/checkSubscriptions');
-// const checkTraining = require('./utils/checkTraining');
-// const checkExpireDate = require('./utils/checkExpireDate');
 const userRouter = require('./routes/userRoutes');
 const clientRouter = require('./routes/clientRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const incomeRouter = require('./routes/incomeRoutes');
 const subscriptionRouter = require('./routes/subscriptionRoutes');
+
+const scheduledJobs = require('./cron-jobs/scheduledJobs');
 
 const app = express();
 
@@ -47,12 +46,6 @@ app.all('*', (req, res, next) => {
   next();
 });
 
-// // Check valid Subscripions
-// checkSubscriptions.checkSubscriptions();
-// checkSubscriptions.moveOldSubscription();
-// // Check training done
-// checkTraining.checkTraining();
-// // Check subscription expiredate
-// checkExpireDate.checkExpireDate();
+scheduledJobs.checkDoneTrainings();
 
 module.exports = app;
