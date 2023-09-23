@@ -46,7 +46,6 @@ exports.checkDoneTrainings = () => {
             { 'day.done': true }
           );
         }
-        return;
       }
     });
   });
