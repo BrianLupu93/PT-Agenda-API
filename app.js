@@ -49,8 +49,8 @@ app.all('*', (req, res, next) => {
   next();
 });
 
-//  CHECK DONE TRAINGS -> Every 20 minutes between 6AM and 23PM  */20 6-23 * * *
-schedule.scheduleJob('*/1 6-23 * * *', () => {
+//  CHECK DONE TRAINGS -> Every 15 minutes between 6AM and 23PM  */15 6-23 * * *
+schedule.scheduleJob('*/15 6-23 * * *', () => {
   scheduledJobs.checkDoneTrainings();
 });
 
