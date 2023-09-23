@@ -3,8 +3,8 @@ const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 
 const signToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '3h',
+  return jwt.sign({ id: id }, process.env.JWT_SECRET, {
+    expiresIn: '24h',
   });
 };
 
