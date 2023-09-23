@@ -9,7 +9,7 @@ exports.checkDoneTrainings = () => {
 
   //   Every 20 minutes  */20 * * * *
   schedule.scheduleJob(
-    { start: startTime, end: endTime, rule: '/20 * * * *' },
+    { start: startTime, end: endTime, rule: '*/1 * * * *' },
     async () => {
       const today = dayjs().format('DD/MM/YYYY');
       const hour = dayjs().hour();
