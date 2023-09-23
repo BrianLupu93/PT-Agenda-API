@@ -4,8 +4,8 @@ const Booking = require('../models/bookingModel');
 const Subscription = require('../models/subscriptionModel');
 
 exports.checkDoneTrainings = () => {
-  const startTime = 6;
-  const endTime = 23;
+  const startTime = { hour: 6, minute: 0, second: 0 };
+  const endTime = { hour: 23, minute: 0, second: 0 };
 
   //   Every 20 minutes  */20 * * * *
   schedule.scheduleJob(
