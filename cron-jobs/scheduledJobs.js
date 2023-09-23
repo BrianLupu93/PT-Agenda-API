@@ -5,7 +5,7 @@ const Subscription = require('../models/subscriptionModel');
 
 exports.checkDoneTrainings = () => {
   //   Every 20 minutes  */20 * * * *
-  schedule.scheduleJob('*/1 * * * *', async () => {
+  schedule.scheduleJob('*/20 6-23 * * *', async () => {
     const today = dayjs().format('DD/MM/YYYY');
     const hour = dayjs().hour();
     const minute = dayjs().minute();
