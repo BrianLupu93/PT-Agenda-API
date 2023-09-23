@@ -18,6 +18,7 @@ const subscriptionSchema = new mongoose.Schema({
   startDate: String,
   endDate: String,
   isActive: Boolean,
+  alertMessage: { type: String, default: 'ACTIV' },
   price: Number,
   trainingDays: { type: Array, default: [] },
 });

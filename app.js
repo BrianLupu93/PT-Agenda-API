@@ -49,9 +49,19 @@ app.all('*', (req, res, next) => {
   next();
 });
 
-//   Every 20 minutes  */20 * * * *
+//  CHECK DONE TRAINGS -> Every 20 minutes between 6AM and 23PM  */20 6-23 * * *
 schedule.scheduleJob('*/20 6-23 * * *', () => {
   scheduledJobs.checkDoneTrainings();
+});
+
+//  CHECK SUBSCRIPTION EXPIRE DATE -> Every morning at 1AM  0 1 * * *
+schedule.scheduleJob('0 1 * * *', () => {
+  scheduledJobs.checkExpireDate();
+});
+
+//  END EXPIRED SUBSCRIPTIONS -> Every evening at 23:10 PM  10 23 * * *
+schedule.scheduleJob('10 23 * * *', () => {
+  scheduledJobs.endExpiredSubscriptions();
 });
 
 module.exports = app;
