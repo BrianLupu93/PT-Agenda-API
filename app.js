@@ -4,6 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const schedule = require('node-schedule');
 
 const userRouter = require('./routes/userRoutes');
 const clientRouter = require('./routes/clientRoutes');
@@ -38,14 +39,17 @@ app.use('/api/v1/bookings', bookingRouter);
 app.use('/api/v1/incomes', incomeRouter);
 app.use('/api/v1/subscriptions', subscriptionRouter);
 
-app.all('*', (req, res, next) => {
-  res.status(404).json({
-    status: 'success',
-    message: `Can't find ${req.originalUrl} on this server!`,
-  });
-  next();
-});
+// app.all('*', (req, res, next) => {
+//   res.status(404).json({
+//     status: 'success',
+//     message: `Can't find ${req.originalUrl} on this server!`,
+//   });
+//   next();
+// });
 
-scheduledJobs.checkDoneTrainings();
+//   Every 20 minutes  */20 * * * *
+schedule.scheduleJob('*/20 6-23 * * *', () => {
+  scheduledJobs.checkDoneTrainings();
+});
 
 module.exports = app;
