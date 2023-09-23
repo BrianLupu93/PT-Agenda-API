@@ -47,6 +47,7 @@ exports.checkDoneTrainings = () => {
           );
         }
       }
+      return;
     });
   });
 };
