@@ -39,13 +39,15 @@ app.use('/api/v1/bookings', bookingRouter);
 app.use('/api/v1/incomes', incomeRouter);
 app.use('/api/v1/subscriptions', subscriptionRouter);
 
-// app.all('*', (req, res, next) => {
-//   res.status(404).json({
-//     status: 'success',
-//     message: `Can't find ${req.originalUrl} on this server!`,
-//   });
-//   next();
-// });
+app.all('*', (req, res, next) => {
+  if (res.status.toString()[0] === '4' || res.status.toString()[0] === '5') {
+    res.status(404).json({
+      status: 'ERROR',
+      message: `Can't find ${req.originalUrl} on this server!`,
+    });
+  }
+  next();
+});
 
 //   Every 20 minutes  */20 * * * *
 schedule.scheduleJob('*/20 6-23 * * *', () => {
