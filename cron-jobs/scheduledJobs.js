@@ -24,7 +24,7 @@ exports.checkDoneTrainings = () => {
       const endMinute = parseInt(booking.day.time.slice(9, 11));
       const trainingTime = endHour * 3600 + endMinute * 60;
 
-      if (booking.day.done === false) {
+      if (!booking.day.done) {
         if (timeNow > trainingTime) {
           const foundedSubscription = await Subscription.findById(
             booking.subscriptionId
@@ -46,8 +46,8 @@ exports.checkDoneTrainings = () => {
             { 'day.done': true }
           );
         }
+        return;
       }
-      return;
     });
   });
 };
