@@ -19,34 +19,38 @@ exports.checkDoneTrainings = () => {
       (booking) => booking.day.day === today
     );
 
-    todayBookings.map(async (booking) => {
-      const endHour = parseInt(booking.day.time.slice(6, 8));
-      const endMinute = parseInt(booking.day.time.slice(9, 11));
-      const trainingTime = endHour * 3600 + endMinute * 60;
+    await Promise.all(
+      todayBookings.map(async (booking) => {
+        const endHour = parseInt(booking.day.time.slice(6, 8));
+        const endMinute = parseInt(booking.day.time.slice(9, 11));
+        const trainingTime = endHour * 3600 + endMinute * 60;
 
-      if (!booking.day.done) {
-        if (timeNow > trainingTime) {
-          const foundedSubscription = await Subscription.findById(
-            booking.subscriptionId
-          );
+        if (!booking.day.done) {
+          if (timeNow > trainingTime) {
+            const foundedSubscription = await Subscription.findById(
+              booking.subscriptionId
+            );
 
-          await Subscription.findByIdAndUpdate(booking.subscriptionId, {
-            trainingsDone: foundedSubscription.trainingsDone + 1,
-            trainingsRemain:
-              foundedSubscription.trainingsTotal -
-              foundedSubscription.trainingsDone -
-              1,
-          });
+            await Subscription.findByIdAndUpdate(booking.subscriptionId, {
+              trainingsDone: foundedSubscription.trainingsDone + 1,
+              trainingsRemain:
+                foundedSubscription.trainingsTotal -
+                foundedSubscription.trainingsDone -
+                1,
+            });
 
-          await Booking.updateOne(
-            {
-              subscriptionId: booking.subscriptionId,
-              'day.day': booking.day.day,
-            },
-            { 'day.done': true }
-          );
+            await Booking.updateOne(
+              {
+                subscriptionId: booking.subscriptionId,
+                'day.day': booking.day.day,
+              },
+              { 'day.done': true }
+            );
+          }
+          return;
         }
-      }
-    });
+        return;
+      })
+    );
   });
 };
