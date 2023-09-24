@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const schedule = require('node-schedule');
+const axios = require('axios');
 
 const userRouter = require('./routes/userRoutes');
 const clientRouter = require('./routes/clientRoutes');
@@ -62,6 +63,12 @@ schedule.scheduleJob('0 1 * * *', () => {
 //  END EXPIRED SUBSCRIPTIONS -> Every evening at 23:10 PM  10 23 * * *
 schedule.scheduleJob('10 23 * * *', () => {
   scheduledJobs.endExpiredSubscriptions();
+});
+
+//  END EXPIRED SUBSCRIPTIONS -> Every evening at 23:10 PM  10 23 * * *
+schedule.scheduleJob('*/1 * * * *', async () => {
+  console.log('sending');
+  // await sendSms();
 });
 
 module.exports = app;

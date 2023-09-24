@@ -1,6 +1,8 @@
 const dayjs = require('dayjs');
 const Booking = require('../models/bookingModel');
 const Subscription = require('../models/subscriptionModel');
+const { sendSms } = require('../utils/sendSms');
+const { smsThree, smsOne, smsToday } = require('../utils/smsTemplate');
 
 //  ----------- CHECK TRAININGS DONE ------------
 // ----------------------------------------------
@@ -63,30 +65,32 @@ exports.sendSmsToClient = async () => {
 
   if (!allActiveSubscriptions) return;
 
-  allActiveSubscriptions.map((sub) => {
-    const subEndDay = parseInt(sub.endDate.slice(0, 2));
-    const subEndMonth = parseInt(sub.endDate.slice(3, 5)) - 1;
-    const subEndYear = parseInt(sub.endDate.slice(6, 10));
+  Promise.all(
+    allActiveSubscriptions.map(async (sub) => {
+      const subEndDay = parseInt(sub.endDate.slice(0, 2));
+      const subEndMonth = parseInt(sub.endDate.slice(3, 5)) - 1;
+      const subEndYear = parseInt(sub.endDate.slice(6, 10));
 
-    const subEndDate = dayjs()
-      .set('date', subEndDay)
-      .set('month', subEndMonth)
-      .set('year', subEndYear)
-      .format('DD/MM/YYYY');
+      const subEndDate = dayjs()
+        .set('date', subEndDay)
+        .set('month', subEndMonth)
+        .set('year', subEndYear)
+        .format('DD/MM/YYYY');
 
-    // 3 DAYS BEFORE EXPIRE DATE
-    if (subEndDate === threeDaysBefore) {
-      return console.log('3 DAYS BEFORE END');
-    }
-    // 1 DAY BEFORE EXPIRE DATE
-    if (subEndDate === oneDayBefore) {
-      return console.log('1 DAYS BEFORE END');
-    }
-    // TODAY IS THE EXPIRATION DAY
-    if (subEndDate === today) {
-      return console.log('TODAY EXPIRE');
-    }
-  });
+      // 3 DAYS BEFORE EXPIRE DATE
+      if (subEndDate === threeDaysBefore) {
+        await sendSms(sub, smsThree(sub.name));
+      }
+      // 1 DAY BEFORE EXPIRE DATE
+      if (subEndDate === oneDayBefore) {
+        await sendSms(sub, smsOne(sub.name));
+      }
+      // TODAY IS THE EXPIRATION DAY
+      if (subEndDate === today) {
+        await sendSms(sub, smsToday(sub.name));
+      }
+    })
+  );
 };
 
 //  ----------- CHECK EXPIRE DATE ------------
