@@ -4,7 +4,8 @@
   "description": "Api for smart App",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "production": "node server.js"
   },
   "repository": {
     "type": "git",
