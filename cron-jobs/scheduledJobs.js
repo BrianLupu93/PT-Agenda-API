@@ -121,25 +121,25 @@ exports.checkExpireDate = async () => {
       // 3 DAYS BEFORE EXPIRE DATE
       if (subEndDate === threeDaysBefore) {
         await Subscription.findOneAndUpdate(sub._id, {
-          alertMessage: 'Expira: 3 zile',
+          alertMessage: 'Expire: 3 days',
         });
       }
       // 2 DAYS BEFORE EXPIRE DATE
       if (subEndDate === twoDaysBefore) {
         await Subscription.findOneAndUpdate(sub._id, {
-          alertMessage: 'Expira: 2 zile',
+          alertMessage: 'Expire: 2 days',
         });
       }
       // 1 DAY BEFORE EXPIRE DATE
       if (subEndDate === oneDayBefore) {
         await Subscription.findOneAndUpdate(sub._id, {
-          alertMessage: 'Expira: 1 zi',
+          alertMessage: 'Expire: 1 day',
         });
       }
       // TODAY IS THE EXPIRATION DAY
       if (subEndDate === today) {
         await Subscription.findOneAndUpdate(sub._id, {
-          alertMessage: 'Expira: AZI',
+          alertMessage: 'Expire: Today',
         });
       }
     })
