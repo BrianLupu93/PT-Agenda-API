@@ -53,46 +53,6 @@ exports.checkDoneTrainings = async () => {
   );
 };
 
-//  ----------- SEND SMS TO CLIENT ------------
-// ----------------------------------------------
-
-exports.sendSmsToClient = async () => {
-  const today = dayjs().format('DD/MM/YYYY');
-  const oneDayBefore = dayjs().add(1, 'day').format('DD/MM/YYYY');
-  const threeDaysBefore = dayjs().add(3, 'day').format('DD/MM/YYYY');
-
-  const allActiveSubscriptions = await Subscription.find({ isActive: true });
-
-  if (!allActiveSubscriptions) return;
-
-  Promise.all(
-    allActiveSubscriptions.map(async (sub) => {
-      const subEndDay = parseInt(sub.endDate.slice(0, 2));
-      const subEndMonth = parseInt(sub.endDate.slice(3, 5)) - 1;
-      const subEndYear = parseInt(sub.endDate.slice(6, 10));
-
-      const subEndDate = dayjs()
-        .set('date', subEndDay)
-        .set('month', subEndMonth)
-        .set('year', subEndYear)
-        .format('DD/MM/YYYY');
-
-      // 3 DAYS BEFORE EXPIRE DATE
-      if (subEndDate === threeDaysBefore) {
-        await sendSms(sub, smsThree(sub.name));
-      }
-      // 1 DAY BEFORE EXPIRE DATE
-      if (subEndDate === oneDayBefore) {
-        await sendSms(sub, smsOne(sub.name));
-      }
-      // TODAY IS THE EXPIRATION DAY
-      if (subEndDate === today) {
-        await sendSms(sub, smsToday(sub.name));
-      }
-    })
-  );
-};
-
 //  ----------- CHECK EXPIRE DATE ------------
 // ----------------------------------------------
 
