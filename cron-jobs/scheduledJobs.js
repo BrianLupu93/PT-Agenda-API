@@ -1,8 +1,6 @@
 const dayjs = require('dayjs');
 const Booking = require('../models/bookingModel');
 const Subscription = require('../models/subscriptionModel');
-const { sendSms } = require('../utils/sendSms');
-const { smsThree, smsOne, smsToday } = require('../utils/smsTemplate');
 
 //  ----------- CHECK TRAININGS DONE ------------
 // ----------------------------------------------
