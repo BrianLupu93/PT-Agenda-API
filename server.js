@@ -10,25 +10,25 @@ process.on('uncaughtException', (err) => {
 dotenv.config();
 const app = require('./app');
 
-// const DB = process.env.DATABASE.replace(
-//   '<PASSWORD>',
-//   process.env.DATABASE_PASSWORD
-// );
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD
+);
 
-// mongoose.connect(DB).then(() => console.log('DB connection successful!'));
+mongoose.connect(DB).then(() => console.log('DB connection successful!'));
 
-mongoose
-  .connect(`mongodb://${process.env.MONGO_URI}/`, {
-    user: process.env.MONGO_USER,
-    pass: process.env.MONGO_PASS,
-    dbName: process.env.MONGO_DATABASE,
-  })
-  .then(() => {
-    console.log('connected succesfully!');
-  })
-  .catch((error) => {
-    throw new Error(error);
-  });
+// mongoose
+//   .connect(`mongodb://${process.env.MONGO_URI}/`, {
+//     user: process.env.MONGO_USER,
+//     pass: process.env.MONGO_PASS,
+//     dbName: process.env.MONGO_DATABASE,
+//   })
+//   .then(() => {
+//     console.log('connected succesfully!');
+//   })
+//   .catch((error) => {
+//     throw new Error(error);
+//   });
 
 const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {
