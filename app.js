@@ -65,10 +65,4 @@ schedule.scheduleJob('10 23 * * *', () => {
   scheduledJobs.endExpiredSubscriptions();
 });
 
-//  END EXPIRED SUBSCRIPTIONS -> Every evening at 23:10 PM  10 23 * * *
-// schedule.scheduleJob('*/1 * * * *', async () => {
-// console.log('sending');
-// await sendSms();
-// });
-
 module.exports = app;
