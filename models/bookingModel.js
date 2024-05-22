@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const daySchema = new mongoose.Schema({
   day: String,
@@ -12,19 +12,22 @@ const daySchema = new mongoose.Schema({
 const bookingSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Client name is required'],
+    required: [true, "Client name is required"],
   },
   clientId: {
     type: String,
-    required: [true, 'Client ID is required'],
+    required: [true, "Client ID is required"],
   },
   subscriptionId: {
     type: String,
-    required: [true, 'Subscription ID is required'],
+    required: [true, "Subscription ID is required"],
   },
-  day: daySchema,
+  day: {
+    type: daySchema,
+    required: [true, "A Day must be selected !"],
+  },
 });
 
-const Booking = mongoose.model('Booking', bookingSchema);
+const Booking = mongoose.model("Booking", bookingSchema);
 
 module.exports = Booking;

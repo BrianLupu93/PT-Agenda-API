@@ -34,4 +34,8 @@ router
   .route('/expired/:id')
   .post(auth, subscriptionController.updateExpiredSubscription, createIncome);
 
+router
+  .route('/postpone/:id')
+  .patch(auth, subscriptionController.postponeSubscription);
+
 module.exports = router;

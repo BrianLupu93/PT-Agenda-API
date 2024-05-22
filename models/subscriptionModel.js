@@ -20,6 +20,7 @@ const subscriptionSchema = new mongoose.Schema({
   isActive: Boolean,
   alertMessage: { type: String, default: 'ACTIV' },
   price: Number,
+  nutrition: Number,
   trainingDays: { type: Array, default: [] },
 });
 

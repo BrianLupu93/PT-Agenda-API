@@ -8,9 +8,6 @@ services:
       - main
     depends_on:
       - mongo
-    volumes:
-      - ./:/app
-      - /app/node_modules
     ports:
       - ${PORT}:${PORT}
     restart: always
@@ -23,6 +20,23 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+  mongoExpress:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8082:8081
+    networks:
+      - main
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: "cosmintest"
+      ME_CONFIG_BASICAUTH_PASSWORD: "parolaputernica"
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASS}
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USER}:${MONGO_PASS}@mongo
+      ME_CONFIG_OPTIONS_EDITORTHEME: ambiance
+    depends_on:
+      - mongo
+      - app
 networks:
   main:
     driver: bridge

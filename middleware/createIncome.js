@@ -13,7 +13,7 @@ exports.createIncome = catchAsync(async (req, res, next) => {
     clientId: req.body.clientId,
     subscriptionId: foundedSubscription._id,
     date: foundedSubscription.startDate,
-    price: foundedSubscription.price,
+    price: foundedSubscription.price + foundedSubscription.nutrition,
   });
 
   return;
