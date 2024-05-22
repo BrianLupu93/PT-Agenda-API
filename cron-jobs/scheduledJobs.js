@@ -1,7 +1,6 @@
 const dayjs = require("dayjs");
 const Booking = require("../models/bookingModel");
 const Subscription = require("../models/subscriptionModel");
-const Client = require("../models/clientModel");
 
 //  ----------- CHECK TRAININGS DONE ------------
 // ----------------------------------------------
