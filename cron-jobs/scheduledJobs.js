@@ -1,14 +1,12 @@
-const dayjs = require('dayjs');
-const Booking = require('../models/bookingModel');
-const Subscription = require('../models/subscriptionModel');
-const { sendSms } = require('../utils/sendSms');
-const { smsOne, smsToday, smsFive } = require('../utils/smsTemplate');
-const Client = require('../models/clientModel');
+const dayjs = require("dayjs");
+const Booking = require("../models/bookingModel");
+const Subscription = require("../models/subscriptionModel");
+const Client = require("../models/clientModel");
 
 //  ----------- CHECK TRAININGS DONE ------------
 // ----------------------------------------------
 exports.checkDoneTrainings = async () => {
-  const today = dayjs().format('DD/MM/YYYY');
+  const today = dayjs().format("DD/MM/YYYY");
   const hour = dayjs().hour();
   const minute = dayjs().minute();
   const timeNow = hour * 3600 + minute * 60;
@@ -44,62 +42,11 @@ exports.checkDoneTrainings = async () => {
           await Booking.updateOne(
             {
               subscriptionId: booking.subscriptionId,
-              'day.day': booking.day.day,
+              "day.day": booking.day.day,
             },
-            { 'day.done': true }
+            { "day.done": true }
           );
         }
-      }
-    })
-  );
-};
-
-//  ----------- SEND SMS TO CLIENT ------------
-// ----------------------------------------------
-
-exports.sendSmsToClient = async () => {
-  const today = dayjs().format('DD/MM/YYYY');
-  const oneDayBefore = dayjs().add(1, 'day').format('DD/MM/YYYY');
-  const fiveDaysBefore = dayjs().add(5, 'day').format('DD/MM/YYYY');
-
-  const allActiveSubscriptions = await Subscription.find({ isActive: true });
-
-  if (!allActiveSubscriptions) return;
-
-  Promise.all(
-    allActiveSubscriptions.map(async (sub) => {
-      const subEndDay = parseInt(sub.endDate.slice(0, 2));
-      const subEndMonth = parseInt(sub.endDate.slice(3, 5)) - 1;
-      const subEndYear = parseInt(sub.endDate.slice(6, 10));
-
-      const subEndDate = dayjs()
-        .set('date', subEndDay)
-        .set('month', subEndMonth)
-        .set('year', subEndYear)
-        .format('DD/MM/YYYY');
-
-      const foundedClient = await Client.findById(sub.clientId);
-
-      // 5 DAYS BEFORE EXPIRE DATE
-      if (subEndDate === fiveDaysBefore) {
-        await sendSms(
-          foundedClient.phone,
-          smsFive(foundedClient.name, sub.trainingsTotal, sub.endDate)
-        );
-      }
-      // 1 DAY BEFORE EXPIRE DATE
-      if (subEndDate === oneDayBefore) {
-        await sendSms(
-          foundedClient.phone,
-          smsOne(foundedClient.name, sub.trainingsTotal, sub.endDate)
-        );
-      }
-      // TODAY IS THE EXPIRATION DAY
-      if (subEndDate === today) {
-        await sendSms(
-          foundedClient.phone,
-          smsToday(foundedClient.name, sub.trainingsTotal)
-        );
       }
     })
   );
@@ -109,10 +56,10 @@ exports.sendSmsToClient = async () => {
 // ----------------------------------------------
 
 exports.checkExpireDate = async () => {
-  const today = dayjs().format('DD/MM/YYYY');
-  const oneDayBefore = dayjs().add(1, 'day').format('DD/MM/YYYY');
-  const twoDaysBefore = dayjs().add(2, 'day').format('DD/MM/YYYY');
-  const threeDaysBefore = dayjs().add(3, 'day').format('DD/MM/YYYY');
+  const today = dayjs().format("DD/MM/YYYY");
+  const oneDayBefore = dayjs().add(1, "day").format("DD/MM/YYYY");
+  const twoDaysBefore = dayjs().add(2, "day").format("DD/MM/YYYY");
+  const threeDaysBefore = dayjs().add(3, "day").format("DD/MM/YYYY");
 
   const allActiveSubscriptions = await Subscription.find({ isActive: true });
 
@@ -125,36 +72,36 @@ exports.checkExpireDate = async () => {
       const subEndYear = parseInt(sub.endDate.slice(6, 10));
 
       const subEndDate = dayjs()
-        .set('date', subEndDay)
-        .set('month', subEndMonth)
-        .set('year', subEndYear)
-        .format('DD/MM/YYYY');
+        .set("date", subEndDay)
+        .set("month", subEndMonth)
+        .set("year", subEndYear)
+        .format("DD/MM/YYYY");
 
       // 3 DAYS BEFORE EXPIRE DATE
       if (subEndDate === threeDaysBefore) {
         await Subscription.findOneAndUpdate(sub._id, {
-          alertMessage: 'Expira: 3 zile',
+          alertMessage: "Expira: 3 zile",
         });
         return;
       }
       // 2 DAYS BEFORE EXPIRE DATE
       if (subEndDate === twoDaysBefore) {
         await Subscription.findOneAndUpdate(sub._id, {
-          alertMessage: 'Expira: 2 zile',
+          alertMessage: "Expira: 2 zile",
         });
         return;
       }
       // 1 DAY BEFORE EXPIRE DATE
       if (subEndDate === oneDayBefore) {
         await Subscription.findOneAndUpdate(sub._id, {
-          alertMessage: 'Expira: 1 zi',
+          alertMessage: "Expira: 1 zi",
         });
         return;
       }
       // TODAY IS THE EXPIRATION DAY
       if (subEndDate === today) {
         await Subscription.findOneAndUpdate(sub._id, {
-          alertMessage: 'Expira: AZI',
+          alertMessage: "Expira: AZI",
         });
         return;
       }
@@ -163,10 +110,10 @@ exports.checkExpireDate = async () => {
         subEndDate !== oneDayBefore &&
         subEndDate !== twoDaysBefore &&
         subEndDate !== threeDaysBefore &&
-        sub.alertMessage !== 'ACTIV'
+        sub.alertMessage !== "ACTIV"
       ) {
         await Subscription.findOneAndUpdate(sub._id, {
-          alertMessage: 'ACTIV',
+          alertMessage: "ACTIV",
         });
         return;
       }
@@ -176,7 +123,7 @@ exports.checkExpireDate = async () => {
 //  ----------- END EXPIRED SUBSCRIPTION  ------------
 // ---------------------------------------------------
 exports.endExpiredSubscriptions = async () => {
-  const today = dayjs().format('DD/MM/YYYY');
+  const today = dayjs().format("DD/MM/YYYY");
 
   const allActiveSubscriptions = await Subscription.find({ isActive: true });
 

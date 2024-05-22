@@ -1,6 +1,6 @@
-const Income = require('../models/incomeModel');
-const Subscription = require('../models/subscriptionModel');
-const catchAsync = require('../utils/catchAsync');
+const Income = require("../models/incomeModel");
+const Subscription = require("../models/subscriptionModel");
+const catchAsync = require("../utils/catchAsync");
 
 exports.createIncome = catchAsync(async (req, res, next) => {
   const foundedSubscription = await Subscription.findOne({
@@ -13,7 +13,7 @@ exports.createIncome = catchAsync(async (req, res, next) => {
     clientId: req.body.clientId,
     subscriptionId: foundedSubscription._id,
     date: foundedSubscription.startDate,
-    price: foundedSubscription.price + foundedSubscription.nutrition,
+    price: foundedSubscription.price,
   });
 
   return;
