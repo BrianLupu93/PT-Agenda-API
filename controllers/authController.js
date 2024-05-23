@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const User = require("./../models/userModel");
 const catchAsync = require("./../utils/catchAsync");
+const { createDemoData } = require("../middleware/createDemoData");
 
 const signToken = (id) => {
   return jwt.sign({ id: id }, process.env.JWT_SECRET, {
@@ -53,12 +54,12 @@ exports.login = catchAsync(async (req, res, next) => {
     });
   }
 
+  await createDemoData();
+
   // 3) If everything ok, send token to client
   createSendToken(user, 200, req, res);
-
-  next();
 });
 
 exports.logout = catchAsync(async (req, res, next) => {
-  next();
+  return next();
 });
