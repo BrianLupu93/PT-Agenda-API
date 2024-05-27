@@ -1,5 +1,5 @@
-const Client = require('../models/clientModel');
-const factory = require('../utils/handleFactory');
+const Client = require("../models/clientModel");
+const factory = require("../utils/handleFactory");
 
 exports.getAllClients = factory.getAll(Client);
 exports.getClient = factory.getOne(Client);
